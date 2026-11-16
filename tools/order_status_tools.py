@@ -14,8 +14,8 @@ If there is an error getting the order details and status,
 a dictionary with one key 'error' and an error message will be returned. """
 
 @tool(description=order_status_tool_description)
-def get_order_status(order_number: int) -> dict:
-    url = f'{BASE_API_URL}/orders/status/{order_number}'
+def get_order_status(order_id: int) -> dict:
+    url = f'{BASE_API_URL}/orders/status/{order_id}'
     print(url)
     resp = requests.get(url)
     if resp.status_code != 200:
