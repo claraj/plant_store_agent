@@ -1,6 +1,5 @@
 import os 
 from dotenv import load_dotenv
-import requests
 
 from langchain.agents import create_agent
 from langchain.messages import HumanMessage 
@@ -14,7 +13,6 @@ from plant_search_rag.plant_search_rag import plant_query
 
 load_dotenv()
 LLM_MODEL = os.environ['AGENT_LLM_MODEL']
-BASE_API_URL = os.environ['BASE_API_URL']
 
 agent_system_prompt = """You are a friendly, helpful assistant for our houseplant store. 
 Only provide information that exists in the store's database. 
