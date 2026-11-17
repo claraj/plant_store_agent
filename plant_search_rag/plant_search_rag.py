@@ -11,7 +11,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain.tools import tool 
 
 load_dotenv()
-GOOGLE_KEY = os.environ['GOOGLE_API_KEY']
+
 EMBEDDING_MODEL = os.environ['EMBEDDING_MODEL']
 RAG_LLM_MODEL = os.environ['RAG_LLM_MODEL']
 
@@ -47,7 +47,7 @@ def create_retriever(generate_embeddings=False):
         Care, tips: {plant['care']['tips']}
         """
 
-    gemini_embeddings = GoogleGenerativeAIEmbeddings(model=EMBEDDING_MODEL, google_api_key=GOOGLE_KEY)
+    gemini_embeddings = GoogleGenerativeAIEmbeddings(model=EMBEDDING_MODEL)
 
     if generate_embeddings:
         data = json.load(open(plant_database_file))

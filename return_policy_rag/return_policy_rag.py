@@ -11,7 +11,6 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain.tools import tool 
 
-GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 EMBEDDING_MODEL = os.environ['EMBEDDING_MODEL']
 RAG_LLM_MODEL = os.environ['RAG_LLM_MODEL']
 
@@ -30,7 +29,7 @@ If the customer question is not related to returns and refunds this tool will re
 
 def create_retriever(generate_embeddings=False):
 
-    gemini_embeddings = GoogleGenerativeAIEmbeddings(model=EMBEDDING_MODEL)  # 'models/embedding-001'
+    gemini_embeddings = GoogleGenerativeAIEmbeddings(model=EMBEDDING_MODEL) 
     collection_name = 'return_policy_documents'
     persist_directory='./return_policy_embeddings'
 
