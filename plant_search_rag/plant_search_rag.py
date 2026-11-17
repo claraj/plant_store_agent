@@ -1,6 +1,7 @@
 import json 
 import os 
 from dotenv import load_dotenv
+from pathlib import Path
 
 from langchain_core.documents import Document
 from langchain_chroma import Chroma
@@ -15,7 +16,8 @@ load_dotenv()
 EMBEDDING_MODEL = os.environ['EMBEDDING_MODEL']
 RAG_LLM_MODEL = os.environ['RAG_LLM_MODEL']
 
-plant_database_file = 'plant_search_rag/plants.json'
+directory = Path(__file__).resolve().parent
+plant_database_file = os.path.join(directory, 'plants.json')
 
 plant_rag_system_prompt = """Answer the customer's question using only the information provided in the context.
 If the context does not contain enough information to answer the question reply with 'I don't know.' 
@@ -32,7 +34,7 @@ if the answer cannot be provided then "I don't know" will be returned."""
 def create_retriever(generate_embeddings=False):
 
     collection_name = 'plant_details'
-    persist_directory = './plant_embeddings'
+    persist_directory = os.path.join(directory, 'plant_embeddings')
 
     def plant_json_to_text(plant):
 
@@ -121,7 +123,7 @@ def plant_query(query: str) -> str:
     return plant_rag_chain.invoke(query)
 
 
-retriever = create_retriever(True)
+retriever = create_retriever(False) # Set to true initially
 plant_rag_chain = create_rag_chain(retriever)
 
 

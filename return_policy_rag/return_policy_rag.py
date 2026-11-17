@@ -1,7 +1,6 @@
 import os 
 from dotenv import load_dotenv 
-
-load_dotenv()
+from pathlib import Path
 
 from langchain_chroma import Chroma
 from langchain_text_splitters import MarkdownHeaderTextSplitter
@@ -11,17 +10,18 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain.tools import tool 
 
+load_dotenv()
 EMBEDDING_MODEL = os.environ['EMBEDDING_MODEL']
 RAG_LLM_MODEL = os.environ['RAG_LLM_MODEL']
 
-refund_policy_document = 'return_policy_rag/return_policy_document.md'
+directory = Path(__file__).resolve().parent
+refund_policy_document = os.path.join(directory, 'return_policy_document.md')
 
 return_rag_system_prompt = """Answer the customer's question using only the context provided.
 Reply 'I don't know, please provide more information' if the context can't be used to answer the customer's question.
 If the question is related to returns and exchanges but can't be answered by the context respond with "This is a question I am not able to answer."
 If the question is not related to returns and exchanges, respond with "The information given to me does not relate to our return policies. Please rephrase."
 NO hallucinating, be truthful and do not create new information that is not already described in the database or prompts.""" 
-
 
 return_rag_tool_docstring = """Answer customer questions about returns and refunds, return policies and refund policies
 If the customer question is not related to returns and refunds this tool will return "this is not a question i can answer"
@@ -31,7 +31,7 @@ def create_retriever(generate_embeddings=False):
 
     gemini_embeddings = GoogleGenerativeAIEmbeddings(model=EMBEDDING_MODEL) 
     collection_name = 'return_policy_documents'
-    persist_directory='./return_policy_embeddings'
+    persist_directory=os.path.join(directory, 'return_policy_embeddings')
 
     if generate_embeddings:
         with open(refund_policy_document) as file:
@@ -114,7 +114,6 @@ def return_policy_query(query: str) -> str:
     return refund_rag_chain.invoke(query)
 
 
-
 if __name__ == '__main__':
     print('return RAG')
     query = 'where are my plants'
@@ -125,4 +124,3 @@ if __name__ == '__main__':
     rag_result = return_policy_query.invoke(query)
     print('Rag result:', rag_result)
     
-
