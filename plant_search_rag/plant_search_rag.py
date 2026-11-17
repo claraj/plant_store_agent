@@ -119,7 +119,7 @@ def create_rag_chain(retriever):
 
 
 @tool(description=plant_rag_tool_docstring)
-def plant_query(query: str) -> str:
+def plant_rag_query(query: str) -> str:
     return plant_rag_chain.invoke(query)
 
 
@@ -133,7 +133,7 @@ if __name__ == '__main__':
     # query = 'are hoyas hard to look after'
     # query = 'does a hoya plant like humidity'
     print('Query:', query)
-    rag_result = plant_rag.invoke(query)
+    rag_result = plant_rag_query.invoke(query)
 
     print('Rag result:', rag_result)
 

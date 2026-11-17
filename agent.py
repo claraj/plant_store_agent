@@ -33,7 +33,7 @@ agent = create_agent(
     checkpointer=InMemorySaver())
 
 
-def generate_response(user_message, thread_id):
+def generate_response(user_message, thread_id, debug=False):
 
     user_message = user_message.strip()
     human_message = HumanMessage(user_message)
@@ -49,7 +49,11 @@ def generate_response(user_message, thread_id):
         config=config)
     
     messages = response['messages']
-    message_list = [m.pretty_repr() for m in messages]
+
+    if debug:
+        for message in messages:
+            print(message.pretty_repr())
+
     ai_message = messages[-1]   # The last message in the thread
     ai_message_text = ai_message.text
     return ai_message_text

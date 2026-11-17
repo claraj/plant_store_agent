@@ -18,7 +18,8 @@ def agent_chat(debug=True):
         if not user_message:
             print('Bye!')
             break
-        ai_message = generate_response(user_message, thread_id)
+        ai_message = generate_response(user_message, thread_id, debug=debug)
+
         rich.print(Markdown(ai_message))
 
 if __name__ == '__main__':
