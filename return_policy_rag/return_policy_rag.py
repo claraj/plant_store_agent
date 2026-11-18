@@ -57,21 +57,22 @@ def create_retriever(generate_embeddings=False):
         )
 
 
+    # query = 'My plant was dead when it arrived'
+
+    # print('Similarity search')
+    # results = vector_store.similarity_search(query, k=3)
+    # for result in results:
+    #     print(result)
+
+
+    # print('MMR search')
+    # results = vector_store.max_marginal_relevance_search(query, k=3)
+    # for result in results:
+    #     print(result)
+
+
     retriever = vector_store.as_retriever(search_type='similarity', search_kwargs={'k': 3}) 
     return retriever
-
-
-    # query = 'my plant was dead when it arrived'
-    # print('MMR results:')
-    # results = vector_store.max_marginal_relevance_search(query, k=2)
-    # for res in results:
-    #     print(f"{res.page_content}\n")
-
-    # print('Similarity results:')
-    # results = vector_store.similarity_search(query, k=2)
-    # for res in results:
-    #     print(f"{res.page_content}\n")
-
 
 
 def create_rag_chain(retriever):
@@ -105,12 +106,12 @@ def create_rag_chain(retriever):
     return plant_return_rag_chain
 
 
-retriever = create_retriever(True)
+retriever = create_retriever(False) # Set to True initially
 refund_rag_chain = create_rag_chain(retriever)
 
 
 @tool(description=return_rag_tool_docstring)
-def return_policy_query(query: str) -> str:
+def return_policy_rag_query(query: str) -> str:
     return refund_rag_chain.invoke(query)
 
 
@@ -121,6 +122,6 @@ if __name__ == '__main__':
     query = 'my plant was dead when it arrived'
     query = 'my order hasnt arrived'
     print('Query:', query)
-    rag_result = return_policy_query.invoke(query)
+    rag_result = return_policy_rag_query.invoke(query)
     print('Rag result:', rag_result)
     

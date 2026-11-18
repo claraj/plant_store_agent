@@ -109,7 +109,7 @@ def create_rag_chain(retriever):
             'instructions': lambda x: plant_rag_system_prompt, 
             'context': retriever, 
             'question': RunnablePassthrough()
-            }
+        }
         | rag_prompt
         | llm
         | StrOutputParser()

@@ -7,8 +7,8 @@ from langgraph.checkpoint.memory import InMemorySaver
 
 from tools.order_status_tools import get_order_status
 from tools.plant_search_tools import search_plants_by_care_level, search_plants_by_name, search_plants_by_price
-from return_policy_rag.return_policy_rag import return_policy_query
-from plant_search_rag.plant_search_rag import plant_query
+from return_policy_rag.return_policy_rag import return_policy_rag_query
+from plant_search_rag.plant_search_rag import plant_rag_query
 
 load_dotenv()
 LLM_MODEL = os.environ['AGENT_LLM_MODEL']
@@ -26,8 +26,8 @@ agent = create_agent(
         search_plants_by_price,
         search_plants_by_name,
         search_plants_by_care_level,
-        return_policy_query,
-        plant_query
+        return_policy_rag_query,
+        plant_rag_query
         ],
     system_prompt=agent_system_prompt,
     checkpointer=InMemorySaver())
